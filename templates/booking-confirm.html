@@ -1,0 +1,343 @@
+﻿<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<title>MyTrip - Travel Booking</title>
+
+<link rel="icon" type="image/x-icon" href="{% static 'img/logo/favicon.png' %}">
+
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/all-fontawesome.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+<link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/magnific-popup.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/nice-select.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/jquery.timepicker.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="preloader">
+<div class="loader">
+<span style="--i:1;"></span>
+<span style="--i:2;"></span>
+<span style="--i:3;"></span>
+<span style="--i:4;"></span>
+<span style="--i:5;"></span>
+<span style="--i:6;"></span>
+<span style="--i:7;"></span>
+<span style="--i:8;"></span>
+<span style="--i:9;"></span>
+<span style="--i:10;"></span>
+<span style="--i:11;"></span>
+<span style="--i:12;"></span>
+<span style="--i:13;"></span>
+<span style="--i:14;"></span>
+<span style="--i:15;"></span>
+<span style="--i:16;"></span>
+<span style="--i:17;"></span>
+<span style="--i:18;"></span>
+<span style="--i:19;"></span>
+<span style="--i:20;"></span>
+<div class="loader-plane"></div>
+</div>
+</div>
+
+
+<header class="header">
+
+<div class="header-top">
+<div class="container">
+<div class="row align-items-center">
+<div class="col-md-7">
+<div class="header-top-left">
+</div>
+</div>
+<div class="col-md-5">
+<div class="header-top-right">
+<div class="account">
+<a href="{% url 'login' %}"><i class="far fa-sign-in"></i>Login the Payment Account</a>
+<a href="{% url 'register' %}"><i class="far fa-user-tie"></i>Sign Up the Payment Account</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="main-navigation">
+<nav class="navbar navbar-expand-lg">
+<div class="container">
+<a class="navbar-brand" href="index.html">
+<img src="{% static 'img/logo/logo.png' %}" class="logo-display" alt="logo">
+<img src="{% static 'img/logo/logo-dark.png' %}" class="logo-scrolled" alt="logo">
+</a>
+<div class="mobile-menu-right">
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-btn-icon"><i class="far fa-bars"></i></span>
+</button>
+</div>
+<div class="collapse navbar-collapse" id="main_nav">
+<ul class="navbar-nav">
+<li class="nav-item dropdown">
+<a class="nav-link" href="#">Home</a>
+</li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Flight</a>
+<ul class="dropdown-menu fade-down">
+<li><a class="dropdown-item" href="{% url 'home' %}">Flight List</a></li>
+<li><a class="dropdown-item" href="{% url 'flightSingle' %}">Flight Details</a></li>
+<li><a class="dropdown-item" href="{% url 'passengerAdd' %}">Add Passenger</a></li>
+</ul>
+</li>
+</ul>
+<div class="header-nav-right">
+<div class="header-account">
+<div class="dropdown">
+<div data-bs-toggle="dropdown" aria-expanded="false">
+<img src="{% static 'img/account/user.jpg' %}" alt="">
+</div>
+<ul class="dropdown-menu dropdown-menu-end">
+<li><a class="dropdown-item" href="{% url 'myProfile' %}"><i class="far fa-user"></i> My Profile</a></li>
+<li><a class="dropdown-item" href="{% url 'myBooking' %}"><i class="far fa-shopping-bag"></i> My Booking</a></li>
+<li><a class="dropdown-item" href="{% url 'passengerAdd' %}"><i class="far fa-wallet"></i> Add Passenger </a></li>
+<li><a class="dropdown-item" href="{% url 'login' %}"><i class="far fa-sign-out"></i> Log Out</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</div>
+</header>
+
+<main class="main">
+
+<div class="site-breadcrumb" style="background: url({% static 'img/breadcrumb/01.jpg' %})">
+<div class="container">
+<h2 class="breadcrumb-title">Booking Confirm</h2>
+<ul class="breadcrumb-menu">
+<li><a href="index.html">Home</a></li>
+<li class="active">Booking Confirm</li>
+</ul>
+</div>
+</div>
+
+<div class="booking-confirm py-120">
+<div class="container">
+<div class="row">
+<div class="col-md-8 mx-auto mt-5">
+<div class="booking-summary">
+<h3>Booking Summary</h3>
+<div class="booking-summary-content">
+<div class="row g-5">
+<div class="col-lg-12">
+<div class="booking-summary-list">
+<h6>Booking Info</h6>
+<ul>
+<li>Invoice Number <span>{{ bookingConfirmOrder.invoice_num }}</span></li>
+<li>Status <span>{{ bookingConfirmOrder.status }}</span></li>
+<li>Date <span>{{ bookingConfirmOrder.data_time }}</span></li>
+<li>Payment provider <span>{{ bookingConfirmOrder.payment_provider_id.provider_name }}</span></li>
+<li>Flight ID <span>{{ bookingConfirmOrder.booking_id.flight_id }}</span></li>
+<li>Price <span>{{ bookingConfirmOrder.booking_id.price }}</span></li>
+</ul>
+</div>
+</div>
+<div class="col-lg-12">
+<div class="cancel-booking-note">
+<p>Please carefully consider cancelling your order, your place will not be held!</p>
+</div>
+</div>
+</div>
+</div>
+    <div class="row g-5">
+<div class="col-lg-6">
+<form class="booking-confirm-btn" id="choose1">
+<button type="submit" name="payForInvoice" class="theme-btn"><span class="far fa-print"></span>Pay for booking</button>
+</form>
+    </div>
+        <div class="col-lg-6">
+<form class="booking-confirm-btn" id="choose2">
+<button type="submit" name="cancel" class="theme-btn cancel-booking"><span class="far fa-xmark-circle"></span>Cancel Booking</button>
+</form>
+        </div>
+</div>
+
+</div>
+<div class="booking-widget mt-5" >
+<h4 class="booking-widget-title">Confirmation of payment</h4>
+<div class="booking-payment-area">
+<form id="stampNumber">
+    {% csrf_token %}
+<div class="form-group">
+<label>Stamp Number</label>
+<div class="form-group-icon">
+<input type="text" class="form-control" placeholder="Enter your stamp number" name="stamp_number" id="stamp_number">
+</div>
+</div>
+<button type="submit" name="checkStamp" class="theme-btn mt-3"><span class="far fa-print"></span>Check Stamp</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</main>
+
+<footer class="footer-area">
+<div class="footer-widget">
+<div class="container">
+<div class="row footer-widget-wrapper pt-50 pb-30">
+<div class="col-md-6 col-lg-6">
+<div class="footer-widget-box about-us">
+<a href="#" class="footer-logo">
+<img src="{% static 'img/logo/logo-dark.png' %}" alt="">
+</a>
+<p class="mb-4">
+Committed to providing the best quality air ticket booking service.
+</p>
+<ul class="footer-contact">
+<li>
+<div class="footer-call">
+<div class="footer-call-icon">
+<i class="fal fa-headset"></i>
+</div>
+<div class="footer-call-info">
+<h6>Flight Service</h6>
+<a href="tel:+21236547898">+2 123 654 7898</a>
+</div>
+</div>
+</li>
+<li><i class="far fa-map-marker-alt"></i>The Third Teaching Building, Xipu Campus, Southwest Jiaotong University, Chengdu</li>
+<li><i class="far fa-envelopes"></i>sc19sf@leeds.ac.uk</li>
+</ul>
+</div>
+</div>
+<div class="col-md-3 col-lg-3">
+<div class="footer-widget-box list">
+<h4 class="footer-widget-title">Airline server</h4>
+<ul class="footer-list">
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Airline 1</a></li>
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Airline 2</a></li>
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Airline 3</a></li>
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Airline 4</a></li>
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Airline 5</a></li>
+</ul>
+ </div>
+</div>
+<div class="col-md-3 col-lg-3">
+<div class="footer-widget-box list">
+<h4 class="footer-widget-title">Payment provider</h4>
+<div class="footer-payment-method">
+<ul class="footer-list">
+<li><a href="#"><i class="fas fa-angle-double-right"></i> PayPal</a></li>
+    <li><a href="#"><i class="fas fa-angle-double-right"></i> WeChat Pay</a></li>
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Alipay</a></li>
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Apple Pay</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="copyright">
+<div class="container">
+<div class="row">
+<div class="col-md-6 align-self-center">
+<p class="copyright-text">
+&copy; Copyright <span id="date"></span> by <a href="https://minerva.leeds.ac.uk">Group 6</a> All Rights Reserved.
+</p>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+
+<a href="#" id="scroll-top"><i class="far fa-angle-up"></i></a>
+
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/modernizr.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'js/jquery.appear.min.js' %}"></script>
+<script src="{% static 'js/jquery.easing.min.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/counter-up.js' %}"></script>
+<script src="{% static 'js/masonry.pkgd.min.js' %}"></script>
+<script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
+<script src="{% static 'js/wow.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script>
+    $(function () {
+      //  1.监听表单的提交事件
+      $('#choose1').on('submit', function (e) {
+         e.preventDefault()                  // 2.阻止表单的默认行为
+      $.ajax({
+        type : 'POST',                       //请求方式
+        contentType:'application/json',
+        url : 'https://arinnnnnn.pythonanywhere.com/payinvoice/',  //请求的URL地址
+        data:JSON.stringify({
+            invoice_num: $('[name="payForInvoice"]').val(),
+        }),
+        success: function(res) {            //请求成功后的回调函数
+          console.log(res);
+          alert(res.stamp);
+        }
+       })
+      })
+    })
+    $(function () {
+      //  1.监听表单的提交事件
+      $('#stampNumber').on('submit', function (e) {
+         e.preventDefault()                  // 2.阻止表单的默认行为
+      $.ajax({
+        type : 'POST',                       //请求方式
+        contentType:'application/json',
+        url : 'https://arinnnnnn.pythonanywhere.com/payinvoice/',  //请求的URL地址
+        data:JSON.stringify({
+            stamp: $('[name="checkStamp"]').val(),
+        }),
+        success: function(res) {            //请求成功后的回调函数
+          console.log(res);
+        }
+       })
+      })
+    })
+
+    $(function () {
+      //  1.监听表单的提交事件
+      $('#choose2').on('submit', function (e) {
+         e.preventDefault()                  // 2.阻止表单的默认行为
+      $.ajax({
+        type : 'POST',                       //请求方式
+        contentType:'application/json',
+        url : '',  //请求的URL地址
+        success: function(res) {            //请求成功后的回调函数
+          console.log(res);
+          alert(res.stamp);
+        }
+       })
+      })
+    })
+</script>
+</body>
+</html>

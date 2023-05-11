@@ -1,0 +1,768 @@
+﻿<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<title>MyTrip - Travel Booking</title>
+
+<link rel="icon" type="image/x-icon" href="{% static 'img/logo/favicon.png' %}">
+
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/all-fontawesome.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+<link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/magnific-popup.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/nice-select.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/jquery.timepicker.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="preloader">
+<div class="loader">
+<span style="--i:1;"></span>
+<span style="--i:2;"></span>
+<span style="--i:3;"></span>
+<span style="--i:4;"></span>
+<span style="--i:5;"></span>
+<span style="--i:6;"></span>
+<span style="--i:7;"></span>
+<span style="--i:8;"></span>
+<span style="--i:9;"></span>
+<span style="--i:10;"></span>
+<span style="--i:11;"></span>
+<span style="--i:12;"></span>
+<span style="--i:13;"></span>
+<span style="--i:14;"></span>
+<span style="--i:15;"></span>
+<span style="--i:16;"></span>
+<span style="--i:17;"></span>
+<span style="--i:18;"></span>
+<span style="--i:19;"></span>
+<span style="--i:20;"></span>
+<div class="loader-plane"></div>
+</div>
+</div>
+
+
+<header class="header">
+
+<div class="header-top">
+<div class="container">
+<div class="row align-items-center">
+<div class="col-md-7">
+<div class="header-top-left">
+</div>
+</div>
+<div class="col-md-5">
+<div class="header-top-right">
+<div class="account">
+<a href="{% url 'login' %}"><i class="far fa-sign-in"></i>Login the Payment Account</a>
+<a href="{% url 'register' %}"><i class="far fa-user-tie"></i>Sign Up the Payment Account</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="main-navigation">
+<nav class="navbar navbar-expand-lg">
+<div class="container">
+<a class="navbar-brand" href="index.html">
+<img src="{% static 'img/logo/logo.png' %}" class="logo-display" alt="logo">
+<img src="{% static 'img/logo/logo-dark.png' %}" class="logo-scrolled" alt="logo">
+</a>
+<div class="mobile-menu-right">
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main_nav" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-btn-icon"><i class="far fa-bars"></i></span>
+</button>
+</div>
+<div class="collapse navbar-collapse" id="main_nav">
+<ul class="navbar-nav">
+<li class="nav-item dropdown">
+<a class="nav-link" href="#">Home</a>
+</li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Flight</a>
+<ul class="dropdown-menu fade-down">
+<li><a class="dropdown-item" href="{% url 'home' %}">Flight List</a></li>
+<li><a class="dropdown-item" href="{% url 'flightSingle' %}">Flight Details</a></li>
+<li><a class="dropdown-item" href="{% url 'passengerAdd' %}">Add Passenger</a></li>
+</ul>
+</li>
+</ul>
+<div class="header-nav-right">
+<div class="header-account">
+<div class="dropdown">
+<div data-bs-toggle="dropdown" aria-expanded="false">
+<img src="{% static 'img/account/user.jpg' %}" alt="">
+</div>
+<ul class="dropdown-menu dropdown-menu-end">
+<li><a class="dropdown-item" href="{% url 'myProfile' %}"><i class="far fa-user"></i> My Profile</a></li>
+<li><a class="dropdown-item" href="{% url 'myBooking' %}"><i class="far fa-shopping-bag"></i> My Booking</a></li>
+<li><a class="dropdown-item" href="{% url 'passengerAdd' %}"><i class="far fa-wallet"></i> Add Passenger </a></li>
+<li><a class="dropdown-item" href="{% url 'logout' %}"><i class="far fa-sign-out"></i> Log Out</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</div>
+</header>
+
+<main class="main">
+
+<div class="site-breadcrumb" style="background: url({% static 'img/breadcrumb/01.jpg' %})">
+<div class="container">
+<h2 class="breadcrumb-title">Flight List</h2>
+<ul class="breadcrumb-menu">
+<li><a href="index.html">Home</a></li>
+<li class="active">Flight List</li>
+</ul>
+</div>
+</div>
+
+<div class="search-area">
+<div class="container">
+<div class="search-wrapper">
+
+<div class="search-box flight-search">
+<div class="search-form">
+<form action="flightList" id="flightList">
+{% csrf_token %}
+<div class="flight-search-wrapper">
+<div class="flight-search-content">
+<div class="flight-search-item">
+<div class="row">
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>From</label>
+                <div class="form-group-icon">
+                    <input type="text" class="form-control swap-from" placeholder="City" name="departure_airport" id="departure_airport">
+                    <i class="fal fa-plane-departure"></i>
+                </div>
+                <p>From_destination</p>
+{#                <p>JFK - John F. Kennedy International Airport</p>#}
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <div class="search-form-swap"><i class="far fa-repeat"></i></div>
+                <label>To</label>
+                <div class="form-group-icon">
+                    <input type="text" class="form-control swap-to" placeholder="City" name="arrival_airport" id="arrival_airport">
+                    <i class="fal fa-plane-arrival"></i>
+                </div>
+                <p>To_destination</p>
+{#                <p>JFK - John F. Kennedy International Airport</p>#}
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <div class="search-form-date">
+                    <div class="search-form-journey">
+                        <label>Journey Date</label>
+                        <div class="form-group-icon">
+                            <input type="text" class="form-control date-picker journey-date" name="date" id="date">
+                            <i class="fal fa-calendar-days"></i>
+                        </div>
+                        <p class="journey-day-name"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group dropdown static-dropdown passenger-box">
+                <div class="passenger-class" role="menu" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                    <label>Passenger, Class</label>
+                    <div class="form-group-icon">
+                        <div class="passenger-total"><span class="passenger-total-amount">2</span>
+                            Passenger
+                        </div>
+                        <i class="fal fa-user-plus"></i>
+                    </div>
+                    <p class="passenger-class-name">Business</p>
+                </div>
+                <div class="dropdown-menu dropdown-menu-end">
+<div class="dropdown-item">
+<div class="passenger-item">
+<div class="passenger-info">
+<h6>Adults</h6>
+<p>12+ Years</p>
+</div>
+<div class="passenger-qty">
+<button type="button" class="minus-btn"><i class="far fa-minus"></i></button>
+<input type="text" name="adult" class="qty-amount passenger-adult" value="2" readonly>
+<button type="button" class="plus-btn"><i class="far fa-plus"></i></button>
+</div>
+</div>
+</div>
+ <div class="dropdown-item">
+<div class="passenger-item">
+<div class="passenger-info">
+<h6>Children</h6>
+<p>2-12 Years</p>
+</div>
+<div class="passenger-qty">
+<button type="button" class="minus-btn"><i class="far fa-minus"></i></button>
+<input type="text" name="children" class="qty-amount passenger-children" value="0" readonly>
+<button type="button" class="plus-btn"><i class="far fa-plus"></i></button>
+</div>
+</div>
+</div>
+<div class="dropdown-item">
+<div class="passenger-item">
+<div class="passenger-info">
+<h6>Infant</h6>
+<p>Below 2 Years</p>
+</div>
+<div class="passenger-qty">
+<button type="button" class="minus-btn"><i class="far fa-minus"></i></button>
+<input type="text" name="infant" class="qty-amount passenger-infant" value="0" readonly>
+<button type="button" class="plus-btn"><i class="far fa-plus"></i></button>
+</div>
+</div>
+</div>
+<div class="dropdown-item">
+<h6 class="mb-3 mt-2">Cabin Class</h6>
+<div class="passenger-class-info">
+<div class="form-check">
+<input class="form-check-input" type="radio" value="Economy" name="cabin-class" id="cabin-class1">
+<label class="form-check-label" for="cabin-class1">
+Economy
+</label>
+</div>
+<div class="form-check">
+<input class="form-check-input" checked type="radio" value="Business" name="cabin-class" id="cabin-class2">
+<label class="form-check-label" for="cabin-class2">
+Business
+</label>
+</div>
+<div class="form-check">
+<input class="form-check-input" type="radio" value="First Class" name="cabin-class" id="cabin-class3">
+<label class="form-check-label" for="cabin-class3">
+First Class
+</label>
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+</div>
+</div>
+</div>
+<div class="search-btn">
+<button type="submit" class="theme-btn"><span class="far fa-search"></span>Update Search</button>
+</div>
+</div>
+
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="flight-booking flight-list py-120">
+<div class="container">
+<div class="row">
+
+<div class="col-lg-4 col-xl-3 mb-4">
+<div class="booking-sidebar">
+<div class="booking-item">
+<h4 class="booking-title">Flight Class</h4>
+<div class="flight-class">
+<div class="form-check">
+ <input class="form-check-input" name="flight-class" type="checkbox" value="1" id="flight-class1">
+<label class="form-check-label" for="flight-class1">
+Business <span>(20)</span>
+</label>
+</div>
+<div class="form-check">
+<input class="form-check-input" name="flight-class" type="checkbox" value="2" id="flight-class2">
+<label class="form-check-label" for="flight-class2">
+First Class <span>(15)</span>
+</label>
+</div>
+<div class="form-check">
+<input class="form-check-input" name="flight-class" type="checkbox" value="3" id="flight-class3">
+<label class="form-check-label" for="flight-class3">
+Economy <span>(18)</span>
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="col-lg-8 col-xl-9">
+<div class="row">
+<div class="col-lg-12" id="content">
+<div class="flight-booking-item">
+<div class="flight-booking-wrapper">
+<div class="flight-booking-info">
+<div class="flight-booking-content">
+<div class="flight-booking-airline">
+<div class="flight-airline-img">
+<img src="{% static 'img/flight/airline-7.png' %}">
+</div>
+<h5 class="flight-airline-name">Delta</h5>
+</div>
+<div class="flight-booking-time">
+<div class="start-time">
+<div class="start-time-icon">
+<i class="fal fa-plane-departure"></i>
+</div>
+<div class="start-time-info">
+<h6 class="start-time-text">07:30</h6>
+<span class="flight-destination">JFK</span>
+</div>
+</div>
+<div class="flight-stop">
+<span class="flight-stop-number">Non Stop</span>
+<div class="flight-stop-arrow"></div>
+</div>
+<div class="end-time">
+<div class="start-time-icon">
+<i class="fal fa-plane-arrival"></i>
+</div>
+ <div class="start-time-info">
+<h6 class="end-time-text">08:35</h6>
+<span class="flight-destination">LAX</span>
+</div>
+</div>
+</div>
+<div class="flight-booking-duration">
+<span class="duration-text">4h 05m</span>
+</div>
+</div>
+</div>
+<div class="flight-booking-price">
+<div class="price-info">
+<del class="discount-price">$5,548</del>
+<span class="price-amount">$4,548</span>
+</div>
+<a href="{% url 'flightSingle' %}" class="theme-btn">Book Now<i class="far fa-arrow-right"></i></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</main>
+
+<footer class="footer-area">
+<div class="footer-widget">
+<div class="container">
+<div class="row footer-widget-wrapper pt-50 pb-30">
+<div class="col-md-6 col-lg-6">
+<div class="footer-widget-box about-us">
+<a href="#" class="footer-logo">
+<img src="{% static 'img/logo/logo-dark.png' %}" alt="">
+</a>
+<p class="mb-4">
+Committed to providing the best quality air ticket booking service.
+</p>
+<ul class="footer-contact">
+<li>
+<div class="footer-call">
+<div class="footer-call-icon">
+<i class="fal fa-headset"></i>
+</div>
+<div class="footer-call-info">
+<h6>Flight Service</h6>
+<a href="tel:+21236547898">+2 123 654 7898</a>
+</div>
+</div>
+</li>
+<li><i class="far fa-map-marker-alt"></i>The Third Teaching Building, Xipu Campus, Southwest Jiaotong University, Chengdu</li>
+<li><i class="far fa-envelopes"></i>sc19sf@leeds.ac.uk</li>
+</ul>
+</div>
+</div>
+<div class="col-md-3 col-lg-3">
+<div class="footer-widget-box list">
+<h4 class="footer-widget-title">Airline server</h4>
+<ul class="footer-list">
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Airline 1</a></li>
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Airline 2</a></li>
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Airline 3</a></li>
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Airline 4</a></li>
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Airline 5</a></li>
+</ul>
+ </div>
+</div>
+<div class="col-md-3 col-lg-3">
+<div class="footer-widget-box list">
+<h4 class="footer-widget-title">Payment provider</h4>
+<div class="footer-payment-method">
+<ul class="footer-list">
+<li><a href="#"><i class="fas fa-angle-double-right"></i> PayPal</a></li>
+    <li><a href="#"><i class="fas fa-angle-double-right"></i> WeChat Pay</a></li>
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Alipay</a></li>
+<li><a href="#"><i class="fas fa-angle-double-right"></i> Apple Pay</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="copyright">
+<div class="container">
+<div class="row">
+<div class="col-md-6 align-self-center">
+<p class="copyright-text">
+&copy; Copyright <span id="date"></span> by <a href="https://minerva.leeds.ac.uk">Group 6</a> All Rights Reserved.
+</p>
+</div>
+</div>
+</div>
+</div>
+</footer>
+
+
+<a href="#" id="scroll-top"><i class="far fa-angle-up"></i></a>
+
+
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'js/modernizr.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+<script src="{% static 'js/jquery.appear.min.js' %}"></script>
+<script src="{% static 'js/jquery.easing.min.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/counter-up.js' %}"></script>
+<script src="{% static 'js/masonry.pkgd.min.js' %}"></script>
+<script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui.min.js' %}"></script>
+<script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
+<script src="{% static 'js/wow.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+
+<script>
+    $(function () {
+      //  1.监听表单的提交事件
+      $('#flightList').on('submit', function (e) {
+         e.preventDefault()                  // 2.阻止表单的默认行为
+      $.ajax({
+        type: 'POST',                       //请求方式
+        contentType:'application/json',
+        url: 'https://sc19z2z.pythonanywhere.com/airline1/findflight/',  //请求的URL地址
+        data:JSON.stringify({
+            departure_airport: $('[name="departure_airport"]').val(),
+            arrival_airport: $('[name="arrival_airport"]').val(),
+            date: $('[name= "date"]').val(),
+        }),
+        success: function(res) {            //请求成功后的回调函数
+          console.log(res);
+          var out = "";
+          for (let i=0;i<res.length;i++){
+              out+="<div class=\"flight-booking-item\">\n"+
+                    "<div class=\"flight-booking-wrapper\">\n"+
+                    "<div class=\"flight-booking-info\">\n"+
+                    "<div class=\"flight-booking-content\">\n"+
+                    "<div class=\"flight-booking-airline\">\n"+
+                    "<h5 class=\"flight-airline-name\">"+res[i].flight_num+"</h5>\n"
+                    "</div>"
+                    "<div class=\"flight-booking-time\">\n"+
+                    "<div class=\"start-time\">\n"+
+                    "<div class=\"start-time-icon\">\n"+
+                    "<i class=\"fal fa-plane-departure\"></i>\n"+
+                    "</div>\n"+
+                    "<div class=\"start-time-info\">\n"+
+                    "<h6 class=\"start-time-text\">"+res[i].departure_time+"</h6>\n"+
+                    "<span class=\"flight-destination\">"+res[i].departure_airport+"</span>\n"+
+                    "</div>"+
+                    "</div>"+
+                    "<div class=\"flight-stop\">\n"+
+                    "<span class=\"flight-stop-number\">Non Stop</span>\n"+
+                    "<div class=\"flight-stop-arrow\"></div>\n"+
+                    "</div>"
+                    "<div class=\"end-time\">"+
+                    "<div class=\"start-time-icon\">\n"+
+                    "<i class=\"fal fa-plane-arrival\"></i>\n"+
+                    "</div>"+
+                    "<div class=\"start-time-info\">\n"+
+                    "<h6 class=\"end-time-text\">"+res[i].arrival_time+"</h6>\n"+
+                    "<span class=\"flight-destination\">"+res[i].arrival_airport+"</span>"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "<div class=\"flight-booking-price\">\n"+
+                    "<div class=\"price-info\">\n"+
+                    "<span class=\"price-amount\">"+res[i].price+"</span>\n"+
+                    "</div>\n"+
+                    "<a href=\"{% url 'flightSingle' %}\" class=\"theme-btn\">Book Now<i class=\"far fa-arrow-right\"></i></a>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n";
+          }
+          document.getElementById("content").innerHTML=out;
+        },error:function(){
+		alert("Error");}
+       })
+      $.ajax({
+        type: 'POST',                       //请求方式
+        contentType:'application/json',
+        url: 'https://sc19z2z.pythonanywhere.com/airline2/findflight/',  //请求的URL地址
+        data:JSON.stringify({
+            departure_airport: $('[name="departure_airport"]').val(),
+            arrival_airport: $('[name="arrival_airport"]').val(),
+            date: $('[name= "date"]').val(),
+        }),
+        success: function(res) {            //请求成功后的回调函数
+          console.log(res);
+          var out = "";
+          for (let i=0;i<res.length;i++){
+              out+="<div class=\"flight-booking-item\">\n"+
+                    "<div class=\"flight-booking-wrapper\">\n"+
+                    "<div class=\"flight-booking-info\">\n"+
+                    "<div class=\"flight-booking-content\">\n"+
+                    "<div class=\"flight-booking-airline\">\n"+
+                    "<h5 class=\"flight-airline-name\">"+res[i].flight_num+"</h5>\n"
+                    "</div>"
+                    "<div class=\"flight-booking-time\">\n"+
+                    "<div class=\"start-time\">\n"+
+                    "<div class=\"start-time-icon\">\n"+
+                    "<i class=\"fal fa-plane-departure\"></i>\n"+
+                    "</div>\n"+
+                    "<div class=\"start-time-info\">\n"+
+                    "<h6 class=\"start-time-text\">"+res[i].departure_time+"</h6>\n"+
+                    "<span class=\"flight-destination\">"+res[i].departure_airport+"</span>\n"+
+                    "</div>"+
+                    "</div>"+
+                    "<div class=\"flight-stop\">\n"+
+                    "<span class=\"flight-stop-number\">Non Stop</span>\n"+
+                    "<div class=\"flight-stop-arrow\"></div>\n"+
+                    "</div>"
+                    "<div class=\"end-time\">"+
+                    "<div class=\"start-time-icon\">\n"+
+                    "<i class=\"fal fa-plane-arrival\"></i>\n"+
+                    "</div>"+
+                    "<div class=\"start-time-info\">\n"+
+                    "<h6 class=\"end-time-text\">"+res[i].arrival_time+"</h6>\n"+
+                    "<span class=\"flight-destination\">"+res[i].arrival_airport+"</span>"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "<div class=\"flight-booking-price\">\n"+
+                    "<div class=\"price-info\">\n"+
+                    "<span class=\"price-amount\">"+res[i].price+"</span>\n"+
+                    "</div>\n"+
+                    "<a href=\"{% url 'flightSingle' %}\" class=\"theme-btn\">Book Now<i class=\"far fa-arrow-right\"></i></a>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n";
+          }
+          document.getElementById("content").innerHTML=out;
+        },error:function(){
+		alert("Error！");}
+       })
+       $.ajax({
+        type: 'POST',                       //请求方式
+        contentType:'application/json',
+        url: 'https://sc19z2z.pythonanywhere.com/airline3/findflight/',  //请求的URL地址
+        data:JSON.stringify({
+            departure_airport: $('[name="departure_airport"]').val(),
+            arrival_airport: $('[name="arrival_airport"]').val(),
+            date: $('[name= "date"]').val(),
+        }),
+        success: function(res) {            //请求成功后的回调函数
+          console.log(res);
+          var out = "";
+          for (let i=0;i<res.length;i++){
+              out+="<div class=\"flight-booking-item\">\n"+
+                    "<div class=\"flight-booking-wrapper\">\n"+
+                    "<div class=\"flight-booking-info\">\n"+
+                    "<div class=\"flight-booking-content\">\n"+
+                    "<div class=\"flight-booking-airline\">\n"+
+                    "<h5 class=\"flight-airline-name\">"+res[i].flight_num+"</h5>\n"
+                    "</div>"
+                    "<div class=\"flight-booking-time\">\n"+
+                    "<div class=\"start-time\">\n"+
+                    "<div class=\"start-time-icon\">\n"+
+                    "<i class=\"fal fa-plane-departure\"></i>\n"+
+                    "</div>\n"+
+                    "<div class=\"start-time-info\">\n"+
+                    "<h6 class=\"start-time-text\">"+res[i].departure_time+"</h6>\n"+
+                    "<span class=\"flight-destination\">"+res[i].departure_airport+"</span>\n"+
+                    "</div>"+
+                    "</div>"+
+                    "<div class=\"flight-stop\">\n"+
+                    "<span class=\"flight-stop-number\">Non Stop</span>\n"+
+                    "<div class=\"flight-stop-arrow\"></div>\n"+
+                    "</div>"
+                    "<div class=\"end-time\">"+
+                    "<div class=\"start-time-icon\">\n"+
+                    "<i class=\"fal fa-plane-arrival\"></i>\n"+
+                    "</div>"+
+                    "<div class=\"start-time-info\">\n"+
+                    "<h6 class=\"end-time-text\">"+res[i].arrival_time+"</h6>\n"+
+                    "<span class=\"flight-destination\">"+res[i].arrival_airport+"</span>"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "<div class=\"flight-booking-price\">\n"+
+                    "<div class=\"price-info\">\n"+
+                    "<span class=\"price-amount\">"+res[i].price+"</span>\n"+
+                    "</div>\n"+
+                    "<a href=\"{% url 'flightSingle' %}\" class=\"theme-btn\">Book Now<i class=\"far fa-arrow-right\"></i></a>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n";
+          }
+          document.getElementById("content").innerHTML=out;
+        },error:function(){
+		alert("Error！");}
+       })
+       $.ajax({
+        type: 'POST',                       //请求方式
+        contentType:'application/json',
+        url: 'https://sc19z2z.pythonanywhere.com/airline4/findflight/',  //请求的URL地址
+        data:JSON.stringify({
+            departure_airport: $('[name="departure_airport"]').val(),
+            arrival_airport: $('[name="arrival_airport"]').val(),
+            date: $('[name= "date"]').val(),
+        }),
+        success: function(res) {            //请求成功后的回调函数
+          console.log(res);
+          var out = "";
+          for (let i=0;i<res.length;i++){
+              out+="<div class=\"flight-booking-item\">\n"+
+                    "<div class=\"flight-booking-wrapper\">\n"+
+                    "<div class=\"flight-booking-info\">\n"+
+                    "<div class=\"flight-booking-content\">\n"+
+                    "<div class=\"flight-booking-airline\">\n"+
+                    "<h5 class=\"flight-airline-name\">"+res[i].flight_num+"</h5>\n"
+                    "</div>"
+                    "<div class=\"flight-booking-time\">\n"+
+                    "<div class=\"start-time\">\n"+
+                    "<div class=\"start-time-icon\">\n"+
+                    "<i class=\"fal fa-plane-departure\"></i>\n"+
+                    "</div>\n"+
+                    "<div class=\"start-time-info\">\n"+
+                    "<h6 class=\"start-time-text\">"+res[i].departure_time+"</h6>\n"+
+                    "<span class=\"flight-destination\">"+res[i].departure_airport+"</span>\n"+
+                    "</div>"+
+                    "</div>"+
+                    "<div class=\"flight-stop\">\n"+
+                    "<span class=\"flight-stop-number\">Non Stop</span>\n"+
+                    "<div class=\"flight-stop-arrow\"></div>\n"+
+                    "</div>"
+                    "<div class=\"end-time\">"+
+                    "<div class=\"start-time-icon\">\n"+
+                    "<i class=\"fal fa-plane-arrival\"></i>\n"+
+                    "</div>"+
+                    "<div class=\"start-time-info\">\n"+
+                    "<h6 class=\"end-time-text\">"+res[i].arrival_time+"</h6>\n"+
+                    "<span class=\"flight-destination\">"+res[i].arrival_airport+"</span>"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "<div class=\"flight-booking-price\">\n"+
+                    "<div class=\"price-info\">\n"+
+                    "<span class=\"price-amount\">"+res[i].price+"</span>\n"+
+                    "</div>\n"+
+                    "<a href=\"{% url 'flightSingle' %}\" class=\"theme-btn\">Book Now<i class=\"far fa-arrow-right\"></i></a>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n";
+          }
+          document.getElementById("content").innerHTML=out;
+        },error:function(){
+		alert("Error！");}
+       })
+       $.ajax({
+        type: 'POST',                       //请求方式
+        contentType:'application/json',
+        url: 'https://sc19z2z.pythonanywhere.com/airline5/findflight/',  //请求的URL地址
+        data:JSON.stringify({
+            departure_airport: $('[name="departure_airport"]').val(),
+            arrival_airport: $('[name="arrival_airport"]').val(),
+            date: $('[name= "date"]').val(),
+        }),
+        success: function(res) {            //请求成功后的回调函数
+          console.log(res);
+          var out = "";
+          for (let i=0;i<res.length;i++){
+              out+="<div class=\"flight-booking-item\">\n"+
+                    "<div class=\"flight-booking-wrapper\">\n"+
+                    "<div class=\"flight-booking-info\">\n"+
+                    "<div class=\"flight-booking-content\">\n"+
+                    "<div class=\"flight-booking-airline\">\n"+
+                    "<h5 class=\"flight-airline-name\">"+res[i].flight_num+"</h5>\n"
+                    "</div>"
+                    "<div class=\"flight-booking-time\">\n"+
+                    "<div class=\"start-time\">\n"+
+                    "<div class=\"start-time-icon\">\n"+
+                    "<i class=\"fal fa-plane-departure\"></i>\n"+
+                    "</div>\n"+
+                    "<div class=\"start-time-info\">\n"+
+                    "<h6 class=\"start-time-text\">"+res[i].departure_time+"</h6>\n"+
+                    "<span class=\"flight-destination\">"+res[i].departure_airport+"</span>\n"+
+                    "</div>"+
+                    "</div>"+
+                    "<div class=\"flight-stop\">\n"+
+                    "<span class=\"flight-stop-number\">Non Stop</span>\n"+
+                    "<div class=\"flight-stop-arrow\"></div>\n"+
+                    "</div>"
+                    "<div class=\"end-time\">"+
+                    "<div class=\"start-time-icon\">\n"+
+                    "<i class=\"fal fa-plane-arrival\"></i>\n"+
+                    "</div>"+
+                    "<div class=\"start-time-info\">\n"+
+                    "<h6 class=\"end-time-text\">"+res[i].arrival_time+"</h6>\n"+
+                    "<span class=\"flight-destination\">"+res[i].arrival_airport+"</span>"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "<div class=\"flight-booking-price\">\n"+
+                    "<div class=\"price-info\">\n"+
+                    "<span class=\"price-amount\">"+res[i].price+"</span>\n"+
+                    "</div>\n"+
+                    "<a href=\"{% url 'flightSingle' %}\" class=\"theme-btn\">Book Now<i class=\"far fa-arrow-right\"></i></a>\n"+
+                    "</div>\n"+
+                    "</div>\n"+
+                    "</div>\n";
+          }
+          document.getElementById("content").innerHTML=out;
+        },error:function(){
+		alert("Error！");}
+       })
+      })
+    })
+</script>
+</body>
+</html>
